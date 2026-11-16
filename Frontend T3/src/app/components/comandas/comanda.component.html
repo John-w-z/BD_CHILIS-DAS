@@ -1,0 +1,115 @@
+<div class="comanda-container">
+    <h2>Gestión de Comanda - Mesa {{ idMesaSeleccionada }}</h2>
+
+    <div class="comanda-content">
+
+        <!-- ZONA 1: TOMA DE PEDIDO (CARTA) -->
+        <div class="menu-section">
+            <h3>1. Toma de Pedido (Seleccionar Platillos)</h3>
+
+            <!-- Barra de Filtros por Categoría -->
+            <div class="categorias-bar">
+                <button *ngFor="let cat of categorias" type="button" class="btn-categoria"
+                    [class.activa]="categoriaSeleccionada === cat" (click)="seleccionarCategoria(cat)">
+                    {{ cat }}
+                </button>
+            </div>
+
+            <!-- Grilla filtrada dinámicamente -->
+            <div class="platillos-grid">
+                <div *ngFor="let platillo of platillosFiltrados" class="platillo-card"
+                    (click)="agregarPlatillo(platillo)">
+                    <h4>{{ platillo.nombre }}</h4>
+                    <p class="precio">S/ {{ platillo.precio.toFixed(2) }}</p>
+                    <button class="btn-add">Agregar</button>
+                </div>
+            </div>
+
+            <div *ngIf="platillosFiltrados.length === 0" class="empty-categoria">
+                <p>No hay platillos disponibles en esta categoría.</p>
+            </div>
+        </div>
+
+        <!-- ZONA 2: RESUMEN Y SEGUIMIENTO DEL PEDIDO -->
+        <div class="resumen-section">
+
+            <!-- SECCIÓN EXTRA: SEGUIMIENTO DE COMANDAS ACTIVAS EN COCINA -->
+            <div class="comandas-activas-container" *ngIf="comandasPrevias.length > 0">
+                <h3>📋 Pedidos Activos en Cocina</h3>
+                <div *ngFor="let comanda of comandasPrevias" class="ticket-previo">
+                    <div class="ticket-header">
+                        <span>Ticket #{{ comanda.idComanda }}</span>
+                        <span class="badge-estado" [ngClass]="comanda.estadoComanda.toLowerCase()">
+                            {{ comanda.estadoComanda }}
+                        </span>
+                    </div>
+                    <ul class="detalles-list">
+                        <li *ngFor="let det of comanda.detalles">
+                            <span>{{ det.cantidad }}x {{ det.nombrePlatillo }}</span>
+                            <small *ngIf="det.comentarios" class="nota">({{ det.comentarios }})</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECCIÓN COMANDA ACTUAL (NUEVO ENVÍO) -->
+            <h3>2. Resumen del Pedido</h3>
+
+            <div *ngIf="detallesActuales.length === 0" class="empty-cart">
+                <p>No hay platillos en la comanda actual.</p>
+            </div>
+
+            <div class="lista-detalles-container" *ngIf="detallesActuales.length > 0">
+                <div *ngFor="let item of detallesActuales; let i = index" class="detalle-item">
+                    <div class="detalle-info">
+                        <span class="nombre">{{ item.nombrePlatillo }}</span>
+                        <div class="controles-cantidad">
+                            <button type="button" class="btn-quitar" (click)="disminuirCantidad(i)"
+                                title="Quitar unidad">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path
+                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                    </path>
+                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                </svg>
+                            </button>
+                            <span class="cantidad">x{{ item.cantidad }}</span>
+                        </div>
+                        <span class="subtotal">S/ {{ item.subtotal.toFixed(2) }}</span>
+                    </div>
+
+                    <!-- Notas y comentarios -->
+                    <div class="notas-container">
+                        <input type="text" [(ngModel)]="item.comentarios"
+                            placeholder="Ej. Sin cebolla, término medio..." maxlength="150" class="input-comentario" />
+                        <small class="contador" [class.limite]="(item.comentarios?.length || 0) >= 140">
+                            {{ item.comentarios?.length || 0 }}/150
+                        </small>
+
+                        <!-- Botones de comentarios rápidos -->
+                        <div class="botones-rapidos">
+                            <button type="button" *ngFor="let op of comentariosRapidos" class="btn-opcion-rapida"
+                                (click)="seleccionarComentarioRapido(item, op)">
+                                {{ op }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="total-container" *ngIf="detallesActuales.length > 0">
+                <span>Total Nuevo Envío:</span>
+                <span class="total-precio">S/ {{ calcularTotal().toFixed(2) }}</span>
+            </div>
+
+            <button class="btn-enviar" *ngIf="detallesActuales.length > 0" (click)="enviarComanda()">
+                Enviar Comanda a Cocina
+            </button>
+        </div>
+
+    </div>
+</div>

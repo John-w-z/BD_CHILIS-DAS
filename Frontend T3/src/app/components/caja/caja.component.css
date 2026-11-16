@@ -1,0 +1,439 @@
+.caja-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    padding: 20px;
+    background-color: #121824;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cargando-box,
+.error-box {
+    background: #1e293b;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.cobro-card {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 28px;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.comanda-numero {
+    font-weight: bold;
+    color: #94a3b8;
+    margin-bottom: 10px;
+}
+
+.tabla-detalles {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+.tabla-detalles th,
+.tabla-detalles td {
+    padding: 8px 4px;
+    text-align: left;
+    border-bottom: 1px solid #334155;
+}
+
+.total-destacado {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding: 12px 0;
+    border-top: 2px dashed #475569;
+    color: #22c55e;
+}
+
+.metodos-grid {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0 15px 0;
+}
+
+.metodos-grid button {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #475569;
+    background: #334155;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.metodos-grid button.active {
+    background: #2563eb;
+    border-color: #3b82f6;
+    font-weight: bold;
+}
+
+.campo-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.campo-grupo input {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: #fff;
+}
+
+.vuelto-text {
+    color: #38bdf8;
+    margin-top: 4px;
+}
+
+.acciones-form {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.btn-cobrar {
+    flex: 2;
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-cancelar {
+    flex: 1;
+    background: #64748b;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* MODAL Y TICKET TÉRMICO EN PANTALLA */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.ticket-boleta {
+    background: #ffffff;
+    color: #000000;
+    width: 320px;
+    padding: 15px;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+}
+
+.ticket-header {
+    text-align: center;
+}
+
+.ticket-header h2 {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.ruc,
+.titulo-doc,
+.nro-boleta {
+    margin: 2px 0;
+    font-size: 0.85rem;
+}
+
+.dash-line {
+    border: none;
+    border-top: 1px dashed #000;
+    margin: 8px 0;
+}
+
+.ticket-info p {
+    margin: 3px 0;
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* ESTRUCTURA Y ANCHO DE COLUMNAS DE LA TABLA */
+.tabla-ticket {
+    width: 100%;
+    font-size: 0.85rem;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.col-cant {
+    width: 15%;
+    text-align: left;
+}
+
+.col-prod {
+    width: 50%;
+    text-align: left;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.col-total {
+    width: 35%;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.ticket-totales {
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.linea-total {
+    display: flex;
+    justify-content: space-between;
+}
+
+.total-final {
+    font-weight: bold;
+    font-size: 0.95rem;
+    border-top: 1px solid #000;
+    padding-top: 4px;
+    margin-top: 2px;
+}
+
+.ticket-footer {
+    text-align: center;
+    margin-top: 12px;
+    font-size: 0.8rem;
+}
+
+.modal-acciones {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-imprimir {
+    flex: 1;
+    background: #0284c7;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-finalizar {
+    flex: 1;
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   ESTILOS DEL MODAL DE APERTURA DE CAJA CON PIN
+   ========================================================================== */
+
+.modal-card {
+    background: #1e293b;
+    color: #ffffff;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 420px;
+    padding: 28px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    border: 1px solid #334155;
+    animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modal-header .icon-lock {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+.modal-header h3 {
+    margin: 0 0 6px 0;
+    color: #f87171;
+    font-size: 1.3rem;
+}
+
+.modal-header p {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #cbd5e1;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: #ffffff;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.form-control:focus {
+    border-color: #3b82f6;
+    outline: none;
+}
+
+.pin-input {
+    letter-spacing: 6px;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.error-banner {
+    background-color: #7f1d1d;
+    color: #fca5a5;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    border: 1px solid #991b1b;
+}
+
+.modal-footer {
+    margin-top: 20px;
+}
+
+.btn-aperturar {
+    width: 100%;
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-aperturar:hover {
+    background: #15803d;
+}
+
+.btn-aperturar:disabled {
+    background: #475569;
+    cursor: not-allowed;
+}
+
+/* ==========================================================================
+   REGLAS DE IMPRESIÓN PROFESIONAL (IMPRESORAS TÉRMICAS / A4)
+   ========================================================================== */
+@media print {
+    @page {
+        size: 80mm auto;
+        margin: 0;
+    }
+
+    html,
+    body {
+        background: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+
+    body * {
+        visibility: hidden;
+    }
+
+    .modal-overlay {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        background: transparent !important;
+        display: block !important;
+    }
+
+    #ticket-print,
+    #ticket-print * {
+        visibility: visible;
+    }
+
+    #ticket-print {
+        position: absolute !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        top: 0 !important;
+        width: 80mm !important;
+        padding: 10px !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+}

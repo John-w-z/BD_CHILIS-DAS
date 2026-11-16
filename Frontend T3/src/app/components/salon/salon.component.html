@@ -1,0 +1,111 @@
+<div class="salon-container">
+    <!-- Cabecera del Salón con el Título y Botón de Cierre Exclusivo para Cajero/Admin -->
+    <div class="salon-top-header"
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="margin: 0;">Gestión de Salón y Mesas</h2>
+
+        <!-- Botón visible solo si el usuario es Cajero o Administrador -->
+        <button type="button" class="btn-cerrar-turno-global" *ngIf="esCajero || esAdmin" (click)="abrirModalCierre()">
+            🔒 Cerrar Turno de Caja
+        </button>
+    </div>
+
+    <!-- Botones de Filtro por Ubicación -->
+    <div class="filter-buttons">
+        <button (click)="filtrarPorUbicacion('TODAS')" [class.active]="ubicacionSeleccionada === 'TODAS'">Todas</button>
+        <button (click)="filtrarPorUbicacion('SALON')" [class.active]="ubicacionSeleccionada === 'SALON'">Salón</button>
+        <button (click)="filtrarPorUbicacion('TERRAZA')"
+            [class.active]="ubicacionSeleccionada === 'TERRAZA'">Terraza</button>
+        <button (click)="filtrarPorUbicacion('BARRA')" [class.active]="ubicacionSeleccionada === 'BARRA'">Barra</button>
+    </div>
+
+    <!-- Cuadrícula de Mesas -->
+    <div class="mesas-grid">
+        <div *ngFor="let mesa of mesasFiltradas" class="mesa-card" [ngClass]="{
+            'estado-libre': mesa.estado === 'LIBRE',
+            'estado-ocupada': mesa.estado === 'OCUPADA',
+            'estado-por-cobrar': mesa.estado === 'POR_COBRAR'
+            }" (click)="abrirComanda(mesa)">
+
+            <div class="mesa-header">
+                <span class="numero">Mesa {{ mesa.numeroMesa }}</span>
+                <span class="capacidad">👤 {{ mesa.capacidad }} pers.</span>
+            </div>
+
+            <div class="mesa-body">
+                <p class="ubicacion">{{ mesa.ubicacion }}</p>
+                <span class="badge" [ngClass]="mesa.estado.toLowerCase()">{{ mesa.estado }}</span>
+            </div>
+
+            <div class="mesa-footer">
+                <!-- ACCIONES DE ESTADO: Solo visibles si NO es CAJERO (Mozo, Anfitriona, Admin) -->
+                <ng-container *ngIf="!esCajero">
+                    <!-- 1. Botón para liberar la mesa (Solo visible si NO está LIBRE) -->
+                    <button class="btn-libres" *ngIf="mesa.estado !== 'LIBRE'"
+                        (click)="$event.stopPropagation(); cambiarEstado(mesa, 'LIBRE')">
+                        Liberar
+                    </button>
+
+                    <!-- 2. Botón para Ocupar (Solo visible si está LIBRE) -->
+                    <button class="btn-ocupadas" *ngIf="mesa.estado === 'LIBRE'"
+                        (click)="$event.stopPropagation(); cambiarEstado(mesa, 'OCUPADA')">
+                        Ocupar
+                    </button>
+                </ng-container>
+
+                <!-- ACCIÓN DE COBRO: Visible si está OCUPADA o POR_COBRAR para todos los roles autorizados -->
+                <button class="btn-cobrar" *ngIf="mesa.estado === 'OCUPADA' || mesa.estado === 'POR_COBRAR'"
+                    (click)="$event.stopPropagation(); irACaja(mesa)">
+                    {{ mesa.estado === 'POR_COBRAR' ? 'Cobrar Cuenta' : 'A cobrar' }}
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL EMERGENTE DE CIERRE DE CAJA / ARQUEO DESDE EL SALÓN -->
+    <div class="modal-overlay" *ngIf="mostrarModalCierre">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="icon-lock">💰</div>
+                <h3>Arqueo y Cierre de Turno</h3>
+                <p>Ingrese el efectivo contado y el PIN del Administrador para cerrar la caja.</p>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="montoFinalCierre">Efectivo Final Contado (S/):</label>
+                    <input type="number" id="montoFinalCierre" [(ngModel)]="montoFinalCierre" placeholder="0.00"
+                        step="0.10" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="observacionCierre">Observación:</label>
+                    <input type="text" id="observacionCierre" [(ngModel)]="observacionCierre"
+                        placeholder="Ej. Cuadre exacto" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="pinAdminCierre">PIN de Autorización del Administrador:</label>
+                    <input type="password" id="pinAdminCierre" [(ngModel)]="pinAdminCierre" placeholder="****"
+                        maxlength="10" class="form-control pin-input" (keyup.enter)="confirmarCierreCaja()" />
+                </div>
+
+                <div class="error-banner" *ngIf="errorModalCierre">
+                    ⚠️ {{ errorModalCierre }}
+                </div>
+            </div>
+
+            <div class="modal-footer" style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn-cancelar" (click)="mostrarModalCierre = false"
+                    style="flex: 1; padding: 12px; border-radius: 6px; border: none; background: #64748b; color: white; cursor: pointer;">
+                    Cancelar
+                </button>
+                <button class="btn-aperturar" (click)="confirmarCierreCaja()" [disabled]="cargandoCierre"
+                    style="flex: 1;">
+                    {{ cargandoCierre ? 'Cerrando...' : 'Confirmar Cierre' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

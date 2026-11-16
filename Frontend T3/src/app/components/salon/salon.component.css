@@ -1,0 +1,297 @@
+.salon-container {
+    padding: 24px;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    min-height: 100vh;
+}
+
+/* Cabecera del Salón */
+.salon-top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+h2 {
+    color: #d32f2f;
+    margin: 0;
+}
+
+.btn-cerrar-turno-global {
+    background-color: #b91c1c;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3);
+    transition: background 0.2s;
+}
+
+.btn-cerrar-turno-global:hover {
+    background-color: #991b1b;
+}
+
+.filter-buttons {
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.filter-buttons button {
+    background-color: #e0e0e0;
+    border: none;
+    padding: 8px 16px;
+    margin-right: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.filter-buttons button.active {
+    background-color: #d32f2f;
+    color: white;
+}
+
+.mesas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.mesa-card {
+    background: white;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-left: 6px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.mesa-card.estado-libre {
+    border-left-color: #4caf50;
+}
+
+.mesa-card.estado-ocupada {
+    border-left-color: #f44336;
+}
+
+.mesa-card.estado-por-cobrar {
+    border-left-color: #ff9800;
+}
+
+.mesa-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.mesa-body {
+    margin: 15px 0;
+    text-align: center;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: bold;
+    color: white;
+    margin-top: 6px;
+}
+
+.badge.libre {
+    background-color: #4caf50;
+}
+
+.badge.ocupada {
+    background-color: #f44336;
+}
+
+.badge.por_cobrar {
+    background-color: #ff9800;
+}
+
+.mesa-footer {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+}
+
+.mesa-footer button {
+    flex: 1;
+    padding: 5px;
+    font-size: 0.75em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #fff;
+}
+
+.mesa-footer button:hover {
+    background: #f0f0f0;
+}
+
+/* ==========================================================================
+   ESTILOS DEL MODAL FLOTANTE DE CIERRE DE TURNO
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-card {
+    background: #ffffff;
+    color: #1e293b;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 420px;
+    padding: 28px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid #cbd5e1;
+    animation: fadeIn 0.25s ease-out;
+    box-sizing: border-box;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modal-header .icon-lock {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+.modal-header h3 {
+    margin: 0 0 6px 0;
+    color: #b91c1c;
+    font-size: 1.3rem;
+}
+
+.modal-header p {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    color: #0f172a;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.form-control:focus {
+    border-color: #3b82f6;
+    outline: none;
+    background: #ffffff;
+}
+
+.pin-input {
+    letter-spacing: 6px;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.error-banner {
+    background-color: #ffeeec;
+    color: #b91c1c;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    border: 1px solid #fecaca;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-aperturar {
+    flex: 1;
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-aperturar:hover {
+    background: #15803d;
+}
+
+.btn-aperturar:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+.btn-cancelar {
+    flex: 1;
+    background: #64748b;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cancelar:hover {
+    background: #475569;
+}

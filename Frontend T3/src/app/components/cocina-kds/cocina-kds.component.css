@@ -1,0 +1,195 @@
+.kds-container {
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1e1e2f;
+    min-height: 90vh;
+    color: #fff;
+}
+
+.kds-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #f8f9fa;
+}
+
+.sin-comandas {
+    text-align: center;
+    color: #adb5bd;
+    font-size: 1.2rem;
+    margin-top: 50px;
+}
+
+.kds-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* Estilo base de la tarjeta con borde lateral grueso tipo KDS industrial */
+.comanda-card {
+    background: #2b2b3c;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-left: 10px solid #28a745;
+    /* Por defecto verde (óptimo) */
+    transition: all 0.3s ease;
+}
+
+/* --- CLASES DE SEMAFORIZACIÓN --- */
+
+.semaforo-verde {
+    border-left-color: #28a745;
+    /* Óptimo (< 5 min) */
+}
+
+.semaforo-amarillo {
+    border-left-color: #ffc107;
+    /* Advertencia (5 - 10 min) */
+    background-color: #38301a;
+    box-shadow: 0 0 12px rgba(255, 193, 7, 0.2);
+}
+
+.semaforo-rojo {
+    border-left-color: #dc3545;
+    /* Retraso crítico (> 10 min) */
+    background-color: #421a20;
+    animation: alerta-critica-pulso 1s infinite alternate;
+}
+
+/* Animación de pulso e intensidad en rojo crítico */
+@keyframes alerta-critica-pulso {
+    0% {
+        box-shadow: 0 0 5px rgba(220, 53, 69, 0.4);
+        transform: scale(1);
+    }
+
+    100% {
+        box-shadow: 0 0 20px rgba(220, 53, 69, 0.8);
+        transform: scale(1.01);
+    }
+}
+
+/* Cronómetro con parpadeo urgente cuando está en rojo */
+.semaforo-rojo .timer-badge {
+    background-color: #dc3545;
+    color: #ffffff;
+    animation: parpadeo-texto 0.8s infinite;
+}
+
+@keyframes parpadeo-texto {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.comanda-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #444;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.header-badges {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.timer-badge {
+    background-color: rgba(0, 0, 0, 0.4);
+    color: #ffeb3b;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.badge.pendiente {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.badge.preparacion {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+.detalles-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+}
+
+.detalle-row {
+    padding: 8px 0;
+    border-bottom: 1px dashed #444;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.plato-info {
+    font-size: 1rem;
+}
+
+.comentario-nota {
+    font-size: 0.85rem;
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.comanda-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-accion {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-accion.preparar {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-accion.preparar:hover {
+    background-color: #138496;
+}
+
+.btn-accion.listo {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-accion.listo:hover {
+    background-color: #218838;
+}

@@ -1,0 +1,50 @@
+<div class="kds-container">
+    <h2>Kitchen Display System (KDS) - Cocina</h2>
+
+    <!-- Si el arreglo está vacío -->
+    <div *ngIf="comandasPendientes.length === 0" class="sin-comandas">
+        <p>No hay comandas pendientes en este momento.</p>
+    </div>
+
+    <!-- Si hay comandas, se muestra la cuadrícula con la semaforización dinámica -->
+    <div *ngIf="comandasPendientes.length > 0" class="kds-grid">
+        <div *ngFor="let comanda of comandasPendientes" class="comanda-card"
+            [ngClass]="obtenerClaseSemaforo(comanda.fechaCreacion)">
+
+            <div class="comanda-header">
+                <h3>Mesa {{ comanda.idMesa }}</h3>
+                <div class="header-badges">
+                    <!-- Contador de tiempo en vivo -->
+                    <span class="timer-badge">⏱️ {{ calcularTiempoTranscurrido(comanda.fechaCreacion) }}</span>
+
+                    <span class="badge" [class.pendiente]="comanda.estadoComanda === 'PENDIENTE'"
+                        [class.preparacion]="comanda.estadoComanda === 'EN_PREPARACION'">
+                        {{ comanda.estadoComanda }}
+                    </span>
+                </div>
+            </div>
+
+            <ul class="detalles-list">
+                <li *ngFor="let detalle of comanda.detalles" class="detalle-row">
+                    <span class="plato-info">
+                        <strong>{{ detalle.cantidad }}x</strong> {{ detalle.nombrePlatillo }}
+                    </span>
+                    <span *ngIf="detalle.comentarios" class="comentario-nota">
+                        ⚠️ Nota: {{ detalle.comentarios }}
+                    </span>
+                </li>
+            </ul>
+
+            <div class="comanda-actions">
+                <button *ngIf="comanda.estadoComanda === 'PENDIENTE'" class="btn-accion preparar"
+                    (click)="cambiarEstado(comanda.idComanda, 'EN_PREPARACION')">
+                    Iniciar Preparación
+                </button>
+                <button *ngIf="comanda.estadoComanda === 'EN_PREPARACION'" class="btn-accion listo"
+                    (click)="cambiarEstado(comanda.idComanda, 'LISTO')">
+                    Marcar como Listo
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

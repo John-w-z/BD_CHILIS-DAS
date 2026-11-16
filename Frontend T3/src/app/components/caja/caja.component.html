@@ -1,0 +1,244 @@
+<div class="caja-container">
+    <!-- ESTADO CARGANDO -->
+    <div class="cargando-box" *ngIf="cargando">
+        <p>Cargando información de la cuenta...</p>
+    </div>
+
+    <!-- ESTADO ERROR / SIN CUENTA -->
+    <div class="error-box" *ngIf="!cargando && errorMensaje">
+        <p>{{ errorMensaje }}</p>
+        <button class="btn-cancelar" (click)="volverSalon()">Volver a Mesas</button>
+    </div>
+
+    <!-- 1. VISTA DE RESUMEN Y FORMULARIO DE PAGO -->
+    <div class="cobro-card" *ngIf="!cargando && !errorMensaje && !mostrarBoleta && comandaActiva">
+        <h2>Módulo de Caja y Facturación - Chili's</h2>
+        <div class="mesa-header">
+            <h3>Mesa #{{ idMesa }}</h3>
+        </div>
+
+        <div class="mesa-header">
+            <h3>Mesa #{{ idMesa }}</h3>
+        </div>
+
+        <div class="comanda-info">
+            <p class="comanda-numero">Comanda #{{ comandaActiva.idComanda }}</p>
+            <table class="tabla-detalles">
+                <thead>
+                    <tr>
+                        <th>Cant</th>
+                        <th>Platillo</th>
+                        <th class="text-right">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let det of comandaActiva.detalles">
+                        <td>{{ det.cantidad }}x</td>
+                        <td>{{ det.nombrePlatillo }}</td>
+                        <td class="text-right">S/ {{ (det.subtotal || (det.cantidad * det.precioUnitario)) |
+                            number:'1.2-2' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="total-destacado">
+                <span>Total a Pagar:</span>
+                <span class="monto">S/ {{ calcularTotal() | number:'1.2-2' }}</span>
+            </div>
+        </div>
+
+        <!-- Opciones de Pago -->
+        <div class="seccion-pago">
+            <label class="block-label">Medio de Pago:</label>
+            <div class="metodos-grid">
+                <button type="button" [class.active]="metodoPago === 'EFECTIVO'"
+                    (click)="seleccionarMetodoPago('EFECTIVO')">
+                    💵 Efectivo
+                </button>
+                <button type="button" [class.active]="metodoPago === 'TARJETA'"
+                    (click)="seleccionarMetodoPago('TARJETA')">
+                    💳 Tarjeta
+                </button>
+                <button type="button" [class.active]="metodoPago === 'YAPE'" (click)="seleccionarMetodoPago('YAPE')">
+                    📱 Yape / Plin
+                </button>
+            </div>
+
+            <div class="campo-grupo" *ngIf="metodoPago === 'EFECTIVO'">
+                <label>Monto Recibido (S/):</label>
+                <input type="number" [(ngModel)]="montoRecibido" placeholder="0.00" />
+                <p class="vuelto-text" *ngIf="vuelto > 0">
+                    Vuelto: <strong>S/ {{ vuelto | number:'1.2-2' }}</strong>
+                </p>
+            </div>
+
+            <div class="campo-grupo">
+                <label>DNI / RUC del Cliente (Opcional):</label>
+                <input type="text" [(ngModel)]="documentoCliente" placeholder="Ingrese DNI o RUC" />
+            </div>
+
+            <div class="acciones-form">
+                <button type="button" class="btn-cancelar" (click)="volverSalon()">Cancelar</button>
+                <button type="button" class="btn-cobrar" (click)="confirmarPago()">Cobrar y Emitir Boleta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MODAL Y TICKET TÉRMICO DE BOLETA -->
+    <div class="modal-overlay" *ngIf="mostrarBoleta && boletaGenerada">
+        <div class="ticket-boleta" id="ticket-print">
+            <div class="ticket-header">
+                <h2>CHILI'S GRILL & BAR</h2>
+                <p class="ruc">RUC: 20100123456</p>
+                <p class="titulo-doc">BOLETA DE VENTA ELECTRÓNICA</p>
+                <p class="nro-boleta"><strong>{{ boletaGenerada.numeroBoleta }}</strong></p>
+            </div>
+
+            <hr class="dash-line" />
+
+            <div class="ticket-info">
+                <p><span>Mesa:</span> <strong>#{{ boletaGenerada.mesa }}</strong></p>
+                <p><span>Fecha:</span> {{ boletaGenerada.fecha | date:'dd/MM/yyyy HH:mm' }}</p>
+                <p><span>Pago:</span> {{ boletaGenerada.metodoPago }}</p>
+                <p *ngIf="boletaGenerada.documentoCliente">
+                    <span>DNI/RUC:</span> {{ boletaGenerada.documentoCliente }}
+                </p>
+            </div>
+
+            <hr class="dash-line" />
+
+            <table class="tabla-ticket">
+                <thead>
+                    <tr>
+                        <th class="col-cant">Cant</th>
+                        <th class="col-prod">Prod</th>
+                        <th class="col-total text-right">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let det of boletaGenerada.detalles">
+                        <td class="col-cant">{{ det.cantidad }}</td>
+                        <td class="col-prod">{{ det.nombrePlatillo }}</td>
+                        <td class="col-total text-right">S/ {{ (det.subtotal || (det.cantidad * det.precioUnitario)) |
+                            number:'1.2-2' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <hr class="dash-line" />
+
+            <div class="ticket-totales">
+                <div class="linea-total">
+                    <span>OP. GRAVADA:</span>
+                    <span>S/ {{ boletaGenerada.subtotal | number:'1.2-2' }}</span>
+                </div>
+                <div class="linea-total">
+                    <span>IGV (18%):</span>
+                    <span>S/ {{ boletaGenerada.igv | number:'1.2-2' }}</span>
+                </div>
+                <div class="linea-total total-final">
+                    <span>TOTAL A PAGAR:</span>
+                    <span>S/ {{ boletaGenerada.total | number:'1.2-2' }}</span>
+                </div>
+                <div class="linea-total" *ngIf="boletaGenerada.metodoPago === 'EFECTIVO'">
+                    <span>RECIBIDO:</span>
+                    <span>S/ {{ boletaGenerada.montoRecibido | number:'1.2-2' }}</span>
+                </div>
+                <div class="linea-total" *ngIf="boletaGenerada.metodoPago === 'EFECTIVO'">
+                    <span>VUELTO:</span>
+                    <span>S/ {{ boletaGenerada.vuelto | number:'1.2-2' }}</span>
+                </div>
+            </div>
+
+            <div class="ticket-footer">
+                <p>¡Gracias por su preferencia!</p>
+            </div>
+
+            <div class="modal-acciones no-print">
+                <button class="btn-imprimir" (click)="imprimirBoleta()">🖨️ Imprimir Ticket</button>
+                <button class="btn-finalizar" (click)="finalizarOperacion()">✓ Finalizar y Volver</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. MODAL EMERGENTE DE APERTURA DE CAJA CON PIN ADMIN -->
+    <div class="modal-overlay" *ngIf="mostrarModalApertura">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="icon-lock">🔐</div>
+                <h3>Apertura de Caja</h3>
+                <p>Ingrese el fondo inicial y el PIN del Administrador para continuar.</p>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="montoInicial">Fondo de Caja Inicial (S/):</label>
+                    <input type="number" id="montoInicial" [(ngModel)]="montoInicial" placeholder="0.00"
+                        class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="pinAdmin">PIN de Autorización del Administrador:</label>
+                    <input type="password" id="pinAdmin" [(ngModel)]="pinAdmin" placeholder="****" maxlength="10"
+                        class="form-control pin-input" (keyup.enter)="confirmarApertura()" />
+                </div>
+
+                <div class="error-banner" *ngIf="errorModal">
+                    ⚠️ {{ errorModal }}
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-aperturar" (click)="confirmarApertura()" [disabled]="cargandoApertura">
+                    {{ cargandoApertura ? 'Verificando PIN...' : 'Aperturar Caja' }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. MODAL EMERGENTE DE CIERRE DE CAJA CON ARQUEO Y PIN ADMIN -->
+    <div class="modal-overlay" *ngIf="mostrarModalCierre">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="icon-lock">💰</div>
+                <h3>Arqueo y Cierre de Turno</h3>
+                <p>Ingrese el efectivo contado y el PIN del Administrador para cerrar la caja.</p>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="montoFinalCierre">Efectivo Final Contado (S/):</label>
+                    <input type="number" id="montoFinalCierre" [(ngModel)]="montoFinalCierre" placeholder="0.00"
+                        step="0.10" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="observacionCierre">Observación:</label>
+                    <input type="text" id="observacionCierre" [(ngModel)]="observacionCierre"
+                        placeholder="Ej. Cuadre exacto" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="pinAdminCierre">PIN de Autorización del Administrador:</label>
+                    <input type="password" id="pinAdminCierre" [(ngModel)]="pinAdminCierre" placeholder="****"
+                        maxlength="10" class="form-control pin-input" (keyup.enter)="confirmarCierreCaja()" />
+                </div>
+
+                <div class="error-banner" *ngIf="errorModalCierre">
+                    ⚠️ {{ errorModalCierre }}
+                </div>
+            </div>
+
+            <div class="modal-footer" style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn-cancelar" (click)="mostrarModalCierre = false"
+                    style="flex: 1; padding: 12px; border-radius: 6px; border: none; background: #64748b; color: white; cursor: pointer;">
+                    Cancelar
+                </button>
+                <button class="btn-aperturar" (click)="confirmarCierreCaja()" [disabled]="cargandoCierre"
+                    style="flex: 1;">
+                    {{ cargandoCierre ? 'Cerrando...' : 'Confirmar Cierre' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

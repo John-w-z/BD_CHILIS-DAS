@@ -1,0 +1,440 @@
+/* ==========================================
+   ESTILOS GENERALES DE LA VISTA DE COMANDA
+   ========================================== */
+.comanda-container {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #2c3e50;
+}
+
+.comanda-container h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #1a252f;
+    border-bottom: 3px solid #e74c3c;
+    display: inline-block;
+    padding-bottom: 0.3rem;
+}
+
+/* Layout principal de 2 columnas */
+.comanda-content {
+    display: grid;
+    grid-template-columns: 1fr 450px;
+    gap: 2rem;
+    align-items: start;
+}
+
+@media (max-width: 1024px) {
+    .comanda-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================
+   ZONA 1: CARTA / SELECCIÓN DE PLATILLOS
+   ========================================== */
+.menu-section {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eef2f5;
+}
+
+.menu-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+    color: #34495e;
+}
+
+/* BARRA DE BOTONES DE CATEGORÍAS */
+.categorias-bar {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+    overflow-x: auto;
+    padding-bottom: 0.4rem;
+}
+
+.btn-categoria {
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    border-radius: 20px;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.btn-categoria:hover {
+    background-color: #e2e8f0;
+    color: #1e293b;
+}
+
+.btn-categoria.activa {
+    background-color: #e74c3c;
+    /* Rojo Chili's */
+    color: #ffffff;
+    border-color: #c0392b;
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.25);
+}
+
+.empty-categoria {
+    text-align: center;
+    color: #94a3b8;
+    font-style: italic;
+    padding: 2rem 0;
+}
+
+/* Grilla adaptable de tarjetas de productos */
+.platillos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.2rem;
+}
+
+.platillo-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.platillo-card:hover {
+    transform: translateY(-4px);
+    border-color: #e74c3c;
+    box-shadow: 0 8px 20px rgba(231, 76, 60, 0.15);
+}
+
+.platillo-card h4 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: #2c3e50;
+    line-height: 1.3;
+}
+
+.platillo-card .precio {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #27ae60;
+    margin-bottom: 1rem;
+}
+
+.btn-add {
+    width: 100%;
+    padding: 0.6rem;
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.platillo-card:hover .btn-add {
+    background-color: #c0392b;
+}
+
+/* ==========================================
+   ZONA 2: RESUMEN Y SEGUIMIENTO DE COMANDA
+   ========================================== */
+.resumen-section {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eef2f5;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    min-height: 500px;
+}
+
+.resumen-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+    color: #34495e;
+}
+
+/* ==========================================
+   PANEL DE COMANDAS ACTIVAS EN COCINA
+   ========================================== */
+.comandas-activas-container {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1rem;
+    max-height: 260px;
+    overflow-y: auto;
+    margin-bottom: 0.5rem;
+}
+
+.comandas-activas-container h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0288d1;
+    margin-top: 0;
+    margin-bottom: 0.8rem;
+}
+
+.ticket-previo {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-left: 5px solid #0288d1;
+    border-radius: 6px;
+    padding: 0.8rem;
+    margin-bottom: 0.8rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #334155;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.badge-estado {
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.badge-estado.pendiente {
+    background-color: #fef3c7;
+    color: #d97706;
+}
+
+.badge-estado.preparando {
+    background-color: #dbeafe;
+    color: #2563eb;
+}
+
+.badge-estado.listo {
+    background-color: #dcfce7;
+    color: #16a34a;
+}
+
+.detalles-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-size: 0.85rem;
+    color: #475569;
+}
+
+.detalles-list li {
+    margin-bottom: 0.2rem;
+}
+
+.detalles-list .nota {
+    display: block;
+    color: #64748b;
+    font-style: italic;
+    font-size: 0.78rem;
+}
+
+/* Empty state para carrito vacío */
+.empty-cart {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #95a5a6;
+    font-style: italic;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+/* Lista de detalles seleccionados */
+.lista-detalles-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.3rem;
+}
+
+.detalle-item {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.detalle-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.detalle-info .nombre {
+    font-weight: 600;
+    color: #2c3e50;
+    flex: 1;
+}
+
+.controles-cantidad {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-quitar {
+    background: #fee2e2;
+    border: none;
+    color: #ef4444;
+    border-radius: 4px;
+    padding: 0.3rem 0.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.btn-quitar:hover {
+    background: #fca5a5;
+    color: #b91c1c;
+}
+
+.cantidad {
+    font-weight: 700;
+    color: #475569;
+    min-width: 25px;
+    text-align: center;
+}
+
+.subtotal {
+    font-weight: 700;
+    color: #059669;
+}
+
+/* ==========================================
+   NOTAS Y COMENTARIOS RÁPIDOS
+   ========================================== */
+.notas-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.input-comentario {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.input-comentario:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
+.contador {
+    align-self: flex-end;
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+.contador.limite {
+    color: #ef4444;
+    font-weight: bold;
+}
+
+/* Chips de botones rápidos */
+.botones-rapidos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.2rem;
+}
+
+.btn-opcion-rapida {
+    background-color: #e2e8f0;
+    border: none;
+    border-radius: 12px;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.75rem;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-opcion-rapida:hover {
+    background-color: #cbd5e1;
+    color: #0f172a;
+}
+
+/* ==========================================
+   TOTAL Y BOTÓN ENVIAR
+   ========================================== */
+.total-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 1.2rem;
+    border-top: 2px dashed #e2e8f0;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.total-precio {
+    color: #059669;
+}
+
+.btn-enviar {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 1rem;
+    background-color: #16a34a;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-enviar:hover {
+    background-color: #15803d;
+    transform: translateY(-1px);
+}
+
+.btn-enviar:active {
+    transform: translateY(0);
+}
