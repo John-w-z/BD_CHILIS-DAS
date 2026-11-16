@@ -404,13 +404,13 @@ INSERT INTO personal (id_personal, nombres, apellidos, dni, telefono) VALUES
 (4, 'Alvaro', 'Acosta Vílchez', '44444444', '999444555'),
 (5, 'John', 'Wualker Zarazu', '55555555', '999555666');
 
--- 3. Insertar Usuarios Demo
--- Actualizar los hashes BCrypt válidos para los usuarios demo (Contraseña para todos: 123456)
-UPDATE usuarios SET password_hash = '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy' WHERE usuario = 'admin';
-UPDATE usuarios SET password_hash = '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy' WHERE usuario = 'mozo1';
-UPDATE usuarios SET password_hash = '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy' WHERE usuario = 'cocinero1';
-UPDATE usuarios SET password_hash = '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy' WHERE usuario = 'cajero1';
-UPDATE usuarios SET password_hash = '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy' WHERE usuario = 'anfitriona1';
+-- 3. Insertar Usuarios Demo (Contraseña para todos: 123456 | PIN admin: 1234)
+INSERT INTO usuarios (id_usuario, id_personal, id_rol, usuario, password_hash, pin_hash, correo) VALUES
+(1, 1, 1, 'admin', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.', 'admin@chilis.pe'),
+(2, 2, 2, 'mozo1', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', NULL, 'mozo1@chilis.pe'),
+(3, 3, 3, 'cocinero1', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', NULL, 'cocinero1@chilis.pe'),
+(4, 4, 4, 'cajero1', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', NULL, 'cajero1@chilis.pe'),
+(5, 5, 5, 'anfitriona1', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', NULL, 'anfitriona1@chilis.pe');
 
 -- Actualizar el PIN de administrador válido (PIN: 1234)
 UPDATE usuarios SET pin_hash = '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.' WHERE usuario = 'admin';
